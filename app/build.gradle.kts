@@ -100,6 +100,6 @@ dependencies {
     // Hilt with Jetpack Compose Navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 // DataBinding (enabled in build.gradle)
-
+    implementation("com.github.mik3y:usb-serial-for-android:3.5.1")
 
 }
