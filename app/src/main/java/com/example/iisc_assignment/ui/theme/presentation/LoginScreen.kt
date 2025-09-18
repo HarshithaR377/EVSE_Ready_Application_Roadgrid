@@ -39,8 +39,8 @@ fun LoginScreen() {
         Column(
             modifier = Modifier
                 .padding(24.dp)
-                .border(2.dp, Color.Gray, shape = RoundedCornerShape(20.dp)) // Add border first
-                .background(color = Color.White, shape = RoundedCornerShape(20.dp)) // Then background
+                .border(2.dp, Color.Gray, shape = RoundedCornerShape(20.dp))
+                .background(color = Color.White, shape = RoundedCornerShape(20.dp))
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
