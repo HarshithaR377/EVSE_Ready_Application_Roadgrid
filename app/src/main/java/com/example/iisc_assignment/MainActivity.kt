@@ -239,9 +239,9 @@ fun WifiConfigScreen(wifiStatus: String, onSend: (String, String) -> Unit) {
             onClick = {
                 if (ssid.isNotBlank() && password.isNotBlank()) {
                     onSend(ssid, password)
-                    Toast.makeText(context, "📤 Wi-Fi credentials sent", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Wi-Fi credentials sent", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, "❌ Enter SSID and Password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Enter SSID and Password", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -252,7 +252,7 @@ fun WifiConfigScreen(wifiStatus: String, onSend: (String, String) -> Unit) {
         Spacer(Modifier.height(20.dp))
 
         if (wifiStatus.isNotEmpty()) {
-            Text("📶 Wi-Fi Status: $wifiStatus", style = MaterialTheme.typography.bodyLarge)
+            Text("Wi-Fi Status: $wifiStatus", style = MaterialTheme.typography.bodyLarge)
         }
         Log.d("WiFiStatus", "Current Wi-Fi Status: $wifiStatus")
     }

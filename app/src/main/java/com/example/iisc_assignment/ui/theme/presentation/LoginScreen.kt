@@ -14,14 +14,16 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.iisc_assignment.ui.theme.green
 
 
 val userss = mutableMapOf<String, String>() // In-memory for demo
 val phoneOtpMap = mutableMapOf<String, String>() // Store phone & OTP temporarily
 
-@Preview
+
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
@@ -33,7 +35,7 @@ fun LoginScreen() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(color = Color.Cyan),
+            .background(color = green),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -84,11 +86,6 @@ fun LoginScreen() {
             ) {
                 Text("Login", color = Color.White, fontWeight = FontWeight.Bold)
             }
-
-            TextButton(onClick = {  }) {
-                Text("Register",textDecoration = TextDecoration.Underline)
-            }
-
             if (error.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))
                 Text(error, color = Color.Red)

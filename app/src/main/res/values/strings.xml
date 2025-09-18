@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">IISc_Assignment</string>
+    <string name="app_name" translatable="false">EVSEReady</string>
     <string name="default_web_client_id">1234567890-abc123def456.apps.googleusercontent.com</string>
 
 </resources>
