@@ -26,8 +26,12 @@ import androidx.core.content.ContextCompat
 import android.bluetooth.*
 import androidx.navigation.compose.rememberNavController
 import com.example.iisc_assignment.ui.theme.navigation.AppNavigation
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.navigation.NavHostController
 
 
+// UUIDs for your ESP32 BLE service and characteristics
 private val SERVICE_UUID = UUID.fromString("12345678-1234-1234-1234-1234567890ab")
 private val WIFI_CRED_UUID = UUID.fromString("12345678-4321-4321-4321-abcdef123456")
 private val WIFI_STATUS_UUID = UUID.fromString("87654321-4321-4321-4321-abcdef654321")
@@ -43,11 +47,15 @@ class MainActivity : ComponentActivity() {
     private var wifiCharacteristic: BluetoothGattCharacteristic? = null
     private var wifiStatusCharacteristic: BluetoothGattCharacteristic? = null
 
+    // Navigation controller we’ll assign later in setContent
+    private lateinit var navControllerForCallbacks: NavHostController
+
     companion object {
         private const val SCAN_PERIOD: Long = 10000
         val wifiStatusState = mutableStateOf("")
     }
 
+    // ✅ BLE GATT Callback
     private val gattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             runOnUiThread {
@@ -58,6 +66,15 @@ class MainActivity : ComponentActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     gatt.discoverServices()
+
+                    // 👉 Navigate to Wi-Fi screen when connected
+                    try {
+                        navControllerForCallbacks.navigate("wifi") {
+                            popUpTo("devices") { inclusive = false }
+                        }
+                    } catch (e: Exception) {
+                        Log.w("MainActivity", "Navigation failed: ${e.message}")
+                    }
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Toast.makeText(this@MainActivity, "Disconnected", Toast.LENGTH_SHORT).show()
                     wifiStatusState.value = ""
@@ -91,6 +108,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // ✅ Permission launcher
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { perms ->
             val granted = perms.values.all { it }
@@ -104,12 +122,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            navControllerForCallbacks = navController // assign for callbacks
             AppNavigation(
                 navController = navController,
                 scanResults = scanResults,
-                onDeviceClick = { device ->
-                    connectToDevice(device)
-                },
+                onDeviceClick = { device -> connectToDevice(device) },
                 onScanClick = { checkPermissionsAndScan() },
                 wifiStatus = wifiStatusState.value,
                 onSend = { ssid, pass -> sendWifiConfig(ssid, pass) }
@@ -117,6 +134,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // ✅ Permission check before scanning
     private fun checkPermissionsAndScan() {
         val permissions = listOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -133,6 +151,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // ✅ BLE Scan
     @SuppressLint("MissingPermission")
     private fun startScan() {
         val scanner = bluetoothAdapter.bluetoothLeScanner
@@ -147,14 +166,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // ✅ Connect to device
     @SuppressLint("MissingPermission")
     private fun connectToDevice(device: BluetoothDevice) {
         bluetoothAdapter.bluetoothLeScanner?.stopScan(scanCallback)
-        bluetoothGatt =
-            device.connectGatt(this, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
+        bluetoothGatt = device.connectGatt(this, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
         Toast.makeText(this, "Connecting to ${device.name ?: "ESP32"}", Toast.LENGTH_SHORT).show()
     }
 
+    // ✅ Send Wi-Fi credentials
     @SuppressLint("MissingPermission")
     private fun sendWifiConfig(ssid: String, password: String) {
         val data = "$ssid,$password"
@@ -168,3 +188,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+

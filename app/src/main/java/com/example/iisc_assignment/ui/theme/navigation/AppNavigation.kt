@@ -35,8 +35,8 @@ fun AppNavigation(
             DeviceListScreen(
                 devices = scanResults,
                 onDeviceClick = { device ->
-                    onDeviceClick(device)            // 🔹 calls MainActivity’s connectToDevice()
-                    navController.navigate("wifi")   // 🔹 navigate after connecting
+                    onDeviceClick(device)
+                    navController.navigate("wifi")
                 },
                 onScanClick = onScanClick,
                 navController = navController

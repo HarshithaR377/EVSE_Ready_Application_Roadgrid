@@ -26,13 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WifiConfigScreen(
     wifiStatus: String,
     onSend: (String, String) -> Unit,
-    navController: NavController = NavController(LocalContext.current)
+    navController: NavController
 ) {
     var ssid by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -55,6 +58,7 @@ fun WifiConfigScreen(
         Text("WiFi/GSM Configuration", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(16.dp))
 
+        // Interface type dropdown
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }
@@ -88,12 +92,9 @@ fun WifiConfigScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        // Wi-Fi Config
+        // Wi-Fi/GSM Config
         if (interfaceType == "Wi-Fi/GSM Configuration") {
-            Text(
-                "Wi-Fi Configuration",
-                style = MaterialTheme.typography.headlineSmall
-            )
+            Text("Wi-Fi Configuration", style = MaterialTheme.typography.headlineSmall)
             Spacer(Modifier.height(8.dp))
             OutlinedTextField(
                 value = ssid,
@@ -107,6 +108,8 @@ fun WifiConfigScreen(
                 label = { Text("Wi-Fi Password") },
                 modifier = Modifier.fillMaxWidth()
             )
+
+            Spacer(Modifier.height(8.dp))
             Text("GSM Configuration", style = MaterialTheme.typography.headlineSmall)
             Spacer(Modifier.height(8.dp))
             OutlinedTextField(
@@ -123,27 +126,82 @@ fun WifiConfigScreen(
             )
 
             Spacer(Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    if (ssid.isNotBlank() && password.isNotBlank()) {
-                        onSend(ssid, password)
-                        Toast.makeText(context, "Wi-Fi credentials sent", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, "Enter SSID and Password", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
+
+            // Button Row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Send Wi-Fi Config")
+                // Skip Button → Go to Home
+                Button(
+                    onClick = {
+                        navController.navigate("home") {
+                            popUpTo("wifiConfig") { inclusive = true }
+                        }
+                    },
+                    modifier = Modifier.weight(1f).padding(end = 8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                ) {
+                    Text("Skip", color = MaterialTheme.colorScheme.onError)
+                }
+
+                // Save & Next Button
+                Button(
+                    onClick = {
+                        if (ssid.isNotBlank() && password.isNotBlank()) {
+                            onSend(ssid, password)
+                            Toast.makeText(context, "Wi-Fi credentials saved", Toast.LENGTH_SHORT).show()
+                            navController.navigate("home") {
+                                popUpTo("wifiConfig") { inclusive = true }
+                            }
+                        } else {
+                            Toast.makeText(context, "Enter SSID and Password", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    modifier = Modifier.weight(1f).padding(start = 8.dp)
+                ) {
+                    Text("Save & Next")
+                }
             }
         }
+
         // Ethernet Config
         if (interfaceType == "Ethernet") {
             Text(
                 "Ethernet selected – no extra config needed.",
                 style = MaterialTheme.typography.bodyLarge
             )
+
+            Spacer(Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(
+                    onClick = {
+                        navController.navigate("home") {
+                            popUpTo("wifiConfig") { inclusive = true }
+                        }
+                    },
+                    modifier = Modifier.weight(1f).padding(end = 8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                ) {
+                    Text("Skip", color = MaterialTheme.colorScheme.onError)
+                }
+
+                Button(
+                    onClick = {
+                        Toast.makeText(context, "Ethernet saved", Toast.LENGTH_SHORT).show()
+                        navController.navigate("home") {
+                            popUpTo("wifiConfig") { inclusive = true }
+                        }
+                    },
+                    modifier = Modifier.weight(1f).padding(start = 8.dp)
+                ) {
+                    Text("Save & Next")
+                }
+            }
         }
 
         Spacer(Modifier.height(20.dp))
