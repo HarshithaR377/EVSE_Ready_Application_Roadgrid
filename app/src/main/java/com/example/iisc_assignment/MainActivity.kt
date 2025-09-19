@@ -20,27 +20,19 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresPermission
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import java.util.UUID
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import android.bluetooth.*
-import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.rememberNavController
+import com.example.iisc_assignment.ui.theme.navigation.AppNavigation
 
 
 private val SERVICE_UUID = UUID.fromString("12345678-1234-1234-1234-1234567890ab")
 private val WIFI_CRED_UUID = UUID.fromString("12345678-4321-4321-4321-abcdef123456")
 private val WIFI_STATUS_UUID = UUID.fromString("87654321-4321-4321-4321-abcdef654321")
-private val CCC_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
+private val CCC_DESCRIPTOR_UUID =
+    UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
 
 class MainActivity : ComponentActivity() {
 
@@ -60,7 +52,11 @@ class MainActivity : ComponentActivity() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             runOnUiThread {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    Toast.makeText(this@MainActivity, "Connected to ${gatt.device.name}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Connected to ${gatt.device.name}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     gatt.discoverServices()
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Toast.makeText(this@MainActivity, "Disconnected", Toast.LENGTH_SHORT).show()
@@ -74,17 +70,19 @@ class MainActivity : ComponentActivity() {
             wifiCharacteristic = service?.getCharacteristic(WIFI_CRED_UUID)
             wifiStatusCharacteristic = service?.getCharacteristic(WIFI_STATUS_UUID)
 
-            // Enable notifications
             wifiStatusCharacteristic?.let { characteristic ->
                 gatt.setCharacteristicNotification(characteristic, true)
                 val descriptor = characteristic.getDescriptor(CCC_DESCRIPTOR_UUID)
                 descriptor?.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
                 gatt.writeDescriptor(descriptor)
-                Log.d("BLE", "✅ Wi-Fi status notifications enabled")
+                Log.d("BLE", "Wi-Fi status notifications enabled")
             }
         }
 
-        override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
+        override fun onCharacteristicChanged(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic
+        ) {
             if (characteristic.uuid == WIFI_STATUS_UUID) {
                 val status = characteristic.getStringValue(0)
                 Log.d("BLE", "📶 Wi-Fi Status: $status")
@@ -105,23 +103,17 @@ class MainActivity : ComponentActivity() {
         bluetoothAdapter = (getSystemService(BLUETOOTH_SERVICE) as BluetoothManager).adapter
 
         setContent {
-            var selectedDevice by remember { mutableStateOf<BluetoothDevice?>(null) }
-
-            if (selectedDevice == null) {
-                DeviceListScreen(
-                    devices = scanResults,
-                    onDeviceClick = { device ->
-                        selectedDevice = device
-                        connectToDevice(device)
-                    },
-                    onScanClick = { checkPermissionsAndScan() }
-                )
-            } else {
-                WifiConfigScreen(
-                    wifiStatus = wifiStatusState.value,
-                    onSend = { ssid, pass -> sendWifiConfig(ssid, pass) }
-                )
-            }
+            val navController = rememberNavController()
+            AppNavigation(
+                navController = navController,
+                scanResults = scanResults,
+                onDeviceClick = { device ->
+                    connectToDevice(device)
+                },
+                onScanClick = { checkPermissionsAndScan() },
+                wifiStatus = wifiStatusState.value,
+                onSend = { ssid, pass -> sendWifiConfig(ssid, pass) }
+            )
         }
     }
 
@@ -158,7 +150,8 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("MissingPermission")
     private fun connectToDevice(device: BluetoothDevice) {
         bluetoothAdapter.bluetoothLeScanner?.stopScan(scanCallback)
-        bluetoothGatt = device.connectGatt(this, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
+        bluetoothGatt =
+            device.connectGatt(this, false, gattCallback, BluetoothDevice.TRANSPORT_LE)
         Toast.makeText(this, "Connecting to ${device.name ?: "ESP32"}", Toast.LENGTH_SHORT).show()
     }
 
@@ -175,87 +168,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun DeviceListScreen(
-    devices: List<BluetoothDevice>,
-    onDeviceClick: (BluetoothDevice) -> Unit,
-    onScanClick: () -> Unit
-) {
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text("Available Devices", style = MaterialTheme.typography.titleLarge)
-        Spacer(Modifier.height(8.dp))
-        Button(onClick = onScanClick, modifier = Modifier.fillMaxWidth()) { Text("Scan for Devices") }
-        Spacer(Modifier.height(16.dp))
-        LazyColumn {
-            items(devices) { device ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(4.dp)
-                        .clickable { onDeviceClick(device) }
-                ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                        Text(device.name ?: "Unnamed Device", fontWeight = FontWeight.Bold)
-                        Text(device.address, style = MaterialTheme.typography.bodySmall)
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun WifiConfigScreen(wifiStatus: String, onSend: (String, String) -> Unit) {
-    var ssid by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    val context = LocalContext.current
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Wi-Fi Configuration", style = MaterialTheme.typography.headlineSmall)
-        Spacer(Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = ssid,
-            onValueChange = { ssid = it },
-            label = { Text("Wi-Fi SSID") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Wi-Fi Password") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                if (ssid.isNotBlank() && password.isNotBlank()) {
-                    onSend(ssid, password)
-                    Toast.makeText(context, "Wi-Fi credentials sent", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Enter SSID and Password", Toast.LENGTH_SHORT).show()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Send Wi-Fi Config")
-        }
-
-        Spacer(Modifier.height(20.dp))
-
-        if (wifiStatus.isNotEmpty()) {
-            Text("Wi-Fi Status: $wifiStatus", style = MaterialTheme.typography.bodyLarge)
-        }
-        Log.d("WiFiStatus", "Current Wi-Fi Status: $wifiStatus")
-    }
-}
-
-

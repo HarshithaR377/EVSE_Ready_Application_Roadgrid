@@ -1,4 +1,4 @@
-package com.example.iisc_assignment.ui.theme.presentation
+package com.example.iisc_assignment.ui.theme.screens
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -10,27 +10,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.iisc_assignment.ui.theme.green
 
+// ✅ Correct users map (username → password)
+val userss = mutableMapOf(
+    "admin" to "1234"
+)
 
-val userss = mutableMapOf<String, String>() // In-memory for demo
-val phoneOtpMap = mutableMapOf<String, String>() // Store phone & OTP temporarily
-
-
+val phoneOtpMap = mutableMapOf<String, String>()
 @Composable
 fun LoginScreen(navController: NavController) {
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
-
-    fun isValidEmail(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
 
     Box(
         Modifier
@@ -52,11 +47,13 @@ fun LoginScreen(navController: NavController) {
             OutlinedTextField(
                 value = userName,
                 onValueChange = { userName = it },
-                label = { Text("User Name", color =Color.Black) },
+                label = { Text("Username", color = Color.Black) },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color.Blue,
                     unfocusedBorderColor = Color.Gray
-                ))
+                )
+            )
+
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -70,22 +67,25 @@ fun LoginScreen(navController: NavController) {
 
             Spacer(Modifier.height(16.dp))
 
-            Button(onClick = {
-                error = when {
-                    userName.isBlank() || password.isBlank() -> "Fields cannot be empty"
-                    !isValidEmail(userName) -> "Please enter a valid email address"
-                    userss[userName] == password -> {
-
-                        ""
+            Button(
+                onClick = {
+                    error = when {
+                        userName.isBlank() || password.isBlank() -> "Fields cannot be empty"
+                        userss[userName] == password -> {
+                            // ✅ Login successful
+                            navController.navigate("devices") {
+                                popUpTo("login") { inclusive = true }
+                            }
+                            ""
+                        }
+                        else -> "Invalid credentials"
                     }
-
-                    else -> "Invalid credentials"
-                }
-            }
-                ,  colors = ButtonDefaults.buttonColors(Color(0xFF0077B6))
+                },
+                colors = ButtonDefaults.buttonColors(Color(0xFF0077B6))
             ) {
                 Text("Login", color = Color.White, fontWeight = FontWeight.Bold)
             }
+
             if (error.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))
                 Text(error, color = Color.Red)
