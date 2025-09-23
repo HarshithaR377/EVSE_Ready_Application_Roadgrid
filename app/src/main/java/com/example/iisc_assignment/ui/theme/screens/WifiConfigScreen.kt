@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-
+import com.example.iisc_assignment.ui.theme.navigation.NavigationRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -132,14 +132,16 @@ fun WifiConfigScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Skip Button → Go to Home
+                // Skip Button → go back to devices
                 Button(
                     onClick = {
-                        navController.navigate("home") {
-                            popUpTo("wifiConfig") { inclusive = true }
+                        navController.navigate(NavigationRoute.DEVICES) {
+                            popUpTo(NavigationRoute.WIFI) { inclusive = true }
                         }
                     },
-                    modifier = Modifier.weight(1f).padding(end = 8.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
                     Text("Skip", color = MaterialTheme.colorScheme.onError)
@@ -151,14 +153,16 @@ fun WifiConfigScreen(
                         if (ssid.isNotBlank() && password.isNotBlank()) {
                             onSend(ssid, password)
                             Toast.makeText(context, "Wi-Fi credentials saved", Toast.LENGTH_SHORT).show()
-                            navController.navigate("home") {
-                                popUpTo("wifiConfig") { inclusive = true }
+                            navController.navigate(NavigationRoute.CHARGER_POINT_CONFIG) {
+                                popUpTo(NavigationRoute.WIFI) { inclusive = true }
                             }
                         } else {
                             Toast.makeText(context, "Enter SSID and Password", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    modifier = Modifier.weight(1f).padding(start = 8.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp)
                 ) {
                     Text("Save & Next")
                 }
@@ -180,11 +184,13 @@ fun WifiConfigScreen(
             ) {
                 Button(
                     onClick = {
-                        navController.navigate("home") {
-                            popUpTo("wifiConfig") { inclusive = true }
+                        navController.navigate(NavigationRoute.DEVICES) {
+                            popUpTo(NavigationRoute.WIFI) { inclusive = true }
                         }
                     },
-                    modifier = Modifier.weight(1f).padding(end = 8.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
                     Text("Skip", color = MaterialTheme.colorScheme.onError)
@@ -193,11 +199,13 @@ fun WifiConfigScreen(
                 Button(
                     onClick = {
                         Toast.makeText(context, "Ethernet saved", Toast.LENGTH_SHORT).show()
-                        navController.navigate("home") {
-                            popUpTo("wifiConfig") { inclusive = true }
+                        navController.navigate(NavigationRoute.CHARGER_POINT_CONFIG) {
+                            popUpTo(NavigationRoute.WIFI) { inclusive = true }
                         }
                     },
-                    modifier = Modifier.weight(1f).padding(start = 8.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp)
                 ) {
                     Text("Save & Next")
                 }
