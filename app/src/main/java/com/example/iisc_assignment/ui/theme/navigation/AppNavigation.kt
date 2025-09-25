@@ -5,10 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.iisc_assignment.ui.theme.navigation.NavigationRoute.RFID
 import com.example.iisc_assignment.ui.theme.screens.ChargerPointConfiguration
+import com.example.iisc_assignment.ui.theme.screens.ChargerTypeScreen
+import com.example.iisc_assignment.ui.theme.screens.CommissioningScreen
 import com.example.iisc_assignment.ui.theme.screens.DeviceListScreen
 import com.example.iisc_assignment.ui.theme.screens.ExternalMeterRegisterScreen
+import com.example.iisc_assignment.ui.theme.screens.HomePage
 import com.example.iisc_assignment.ui.theme.screens.LedConfigurationScreen
 import com.example.iisc_assignment.ui.theme.screens.LoginScreen
 import com.example.iisc_assignment.ui.theme.screens.RfidScreen
@@ -35,7 +37,9 @@ fun AppNavigation(
             LoginScreen(navController = navController)
         }
 
-
+composable(NavigationRoute.HOME){
+    HomePage(navController = navController)
+}
 
         // Devices (Bluetooth scan result list)
         composable(NavigationRoute.DEVICES) {
@@ -72,6 +76,14 @@ fun AppNavigation(
 
         composable(route = NavigationRoute.ExternalMeterRegister){
             ExternalMeterRegisterScreen(navController = navController)
+        }
+
+        composable(route = NavigationRoute.ChargerType){
+            ChargerTypeScreen(navController = navController)
+        }
+
+        composable(route = NavigationRoute.Commissioning){
+            CommissioningScreen(navController = navController)
         }
     }
 }

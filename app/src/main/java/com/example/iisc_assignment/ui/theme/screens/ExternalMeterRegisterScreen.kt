@@ -3,15 +3,12 @@ package com.example.iisc_assignment.ui.theme.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 
@@ -114,8 +111,6 @@ fun ExternalMeterRegisterScreen(navController: NavController) {
                         }
                     }
                 }
-
-                // Meter 2
                 Text("Meter 2: Register Configuration", style = MaterialTheme.typography.titleMedium)
                 OutlinedTextField(value = rVoltage2, onValueChange = { rVoltage2 = it }, label = { Text("Enter R Phase Voltage Register") }, modifier = Modifier.fillMaxWidth())
                 OutlinedTextField(value = yVoltage2, onValueChange = { yVoltage2 = it }, label = { Text("Enter Y Phase Voltage Register") }, modifier = Modifier.fillMaxWidth())
@@ -156,21 +151,16 @@ fun ExternalMeterRegisterScreen(navController: NavController) {
                         stopBitOptions.forEach { option -> DropdownMenuItem(text = { Text(option) }, onClick = { stopBit = option; expandedStopBit = false }) }
                     }
                 }
-
-                // Function Code & Data Bits
                 OutlinedTextField(value = readInputRegister, onValueChange = { readInputRegister = it }, label = { Text("Function Code: Read Input Register (0x4)") }, modifier = Modifier.fillMaxWidth())
-
                 ExposedDropdownMenuBox(expanded = expandedDataBits, onExpandedChange = { expandedDataBits = !expandedDataBits }) {
                     OutlinedTextField(value = dataBits, onValueChange = {}, readOnly = true, label = { Text("Data Bits") }, trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedDataBits) }, modifier = Modifier.fillMaxWidth())
                     ExposedDropdownMenu(expanded = expandedDataBits, onDismissRequest = { expandedDataBits = false }) {
                         dataBitsOptions.forEach { option -> DropdownMenuItem(text = { Text(option) }, onClick = { dataBits = option; expandedDataBits = false }) }
                     }
                 }
-
-                // Buttons
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    Button(onClick = { /* TODO: Skip */ }, modifier = Modifier.weight(1f)) { Text("Skip") }
-                    Button(onClick = { /* TODO: Save */ }, modifier = Modifier.weight(1f)) { Text("Save") }
+                    Button(onClick = {  }, modifier = Modifier.weight(1f)) { Text("Skip") }
+                    Button(onClick = {  }, modifier = Modifier.weight(1f)) { Text("Save") }
                 }
             }
         }

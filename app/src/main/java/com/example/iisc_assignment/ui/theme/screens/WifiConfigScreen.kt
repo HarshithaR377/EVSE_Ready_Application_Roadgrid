@@ -29,6 +29,13 @@ import androidx.navigation.NavController
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import com.example.iisc_assignment.ui.theme.navigation.NavigationRoute
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.runtime.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,174 +56,204 @@ fun WifiConfigScreen(
     var appName by remember { mutableStateOf("") }
     var networkSwitchingApp by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("WiFi/GSM Configuration", style = MaterialTheme.typography.headlineSmall)
-        Spacer(Modifier.height(16.dp))
-
-        // Interface type dropdown
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
-        ) {
-            OutlinedTextField(
-                value = interfaceType,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text("Interface Type") },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth()
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Network Configuration") }
             )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                "Select Interface",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.align(Alignment.Start)
+            )
+            Spacer(Modifier.height(8.dp))
 
-            ExposedDropdownMenu(
+            // Interface type dropdown
+            ExposedDropdownMenuBox(
                 expanded = expanded,
-                onDismissRequest = { expanded = false }
+                onExpandedChange = { expanded = !expanded }
             ) {
-                interfaceOptions.forEach { option ->
-                    DropdownMenuItem(
-                        text = { Text(option) },
-                        onClick = {
-                            interfaceType = option
-                            expanded = false
-                        }
-                    )
+                OutlinedTextField(
+                    value = interfaceType,
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Interface Type") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    interfaceOptions.forEach { option ->
+                        DropdownMenuItem(
+                            text = { Text(option) },
+                            onClick = {
+                                interfaceType = option
+                                expanded = false
+                            }
+                        )
+                    }
                 }
             }
-        }
 
-        Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(20.dp))
 
-        // Wi-Fi/GSM Config
-        if (interfaceType == "Wi-Fi/GSM Configuration") {
-            Text("Wi-Fi Configuration", style = MaterialTheme.typography.headlineSmall)
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(
-                value = ssid,
-                onValueChange = { ssid = it },
-                label = { Text("Wi-Fi Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Wi-Fi Password") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(Modifier.height(8.dp))
-            Text("GSM Configuration", style = MaterialTheme.typography.headlineSmall)
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(
-                value = appName,
-                onValueChange = { appName = it },
-                label = { Text("App Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            OutlinedTextField(
-                value = networkSwitchingApp,
-                onValueChange = { networkSwitchingApp = it },
-                label = { Text("Network Switching Type") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(Modifier.height(16.dp))
-
-            // Button Row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                // Skip Button → go back to devices
-                Button(
-                    onClick = {
-                        navController.navigate(NavigationRoute.DEVICES) {
-                            popUpTo(NavigationRoute.WIFI) { inclusive = true }
-                        }
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+            // Wi-Fi/GSM Config
+            if (interfaceType == "Wi-Fi/GSM Configuration") {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(4.dp),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Skip", color = MaterialTheme.colorScheme.onError)
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("Wi-Fi Configuration", style = MaterialTheme.typography.titleMedium)
+                        Spacer(Modifier.height(8.dp))
+
+                        OutlinedTextField(
+                            value = ssid,
+                            onValueChange = { ssid = it },
+                            leadingIcon = { Icon(Icons.Default.PlayArrow, contentDescription = "SSID") },
+                            label = { Text("Wi-Fi Name (SSID)") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        OutlinedTextField(
+                            value = password,
+                            onValueChange = { password = it },
+                            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
+                            label = { Text("Wi-Fi Password") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(Modifier.height(16.dp))
+
+                        Text("GSM Configuration", style = MaterialTheme.typography.titleMedium)
+                        Spacer(Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = appName,
+                            onValueChange = { appName = it },
+                            leadingIcon = { Icon(Icons.Default.AddCircle, contentDescription = "App") },
+                            label = { Text("App Name") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        OutlinedTextField(
+                            value = networkSwitchingApp,
+                            onValueChange = { networkSwitchingApp = it },
+                            leadingIcon = { Icon(Icons.Default.Settings, contentDescription = "Network Switching") },
+                            label = { Text("Network Switching Type") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
 
-                // Save & Next Button
-                Button(
-                    onClick = {
-                        if (ssid.isNotBlank() && password.isNotBlank()) {
-                            onSend(ssid, password)
-                            Toast.makeText(context, "Wi-Fi credentials saved", Toast.LENGTH_SHORT).show()
+                Spacer(Modifier.height(24.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = {
+                            navController.navigate(NavigationRoute.Commissioning) {
+                                popUpTo(NavigationRoute.WIFI) { inclusive = true }
+                            }
+                        },
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colorScheme.error
+                        )
+                    ) {
+                        Text("Skip")
+                    }
+
+                    Button(
+                        onClick = {
+                            if (ssid.isNotBlank() && password.isNotBlank()) {
+                                onSend(ssid, password)
+                                Toast.makeText(context, "Wi-Fi credentials saved", Toast.LENGTH_SHORT).show()
+                                navController.navigate(NavigationRoute.CHARGER_POINT_CONFIG) {
+                                    popUpTo(NavigationRoute.WIFI) { inclusive = true }
+                                }
+                            } else {
+                                Toast.makeText(context, "Enter SSID and Password", Toast.LENGTH_SHORT).show()
+                            }
+                        },
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("Save & Next")
+                    }
+                }
+            }
+
+            // Ethernet Config
+            if (interfaceType == "Ethernet") {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(4.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            "Ethernet selected – no extra configuration required.",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(24.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = {
+                            navController.navigate(NavigationRoute.DEVICES) {
+                                popUpTo(NavigationRoute.WIFI) { inclusive = true }
+                            }
+                        },
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colorScheme.error
+                        )
+                    ) {
+                        Text("Skip")
+                    }
+
+                    Button(
+                        onClick = {
+                            Toast.makeText(context, "Ethernet saved", Toast.LENGTH_SHORT).show()
                             navController.navigate(NavigationRoute.CHARGER_POINT_CONFIG) {
                                 popUpTo(NavigationRoute.WIFI) { inclusive = true }
                             }
-                        } else {
-                            Toast.makeText(context, "Enter SSID and Password", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
-                ) {
-                    Text("Save & Next")
+                        },
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("Save & Next")
+                    }
                 }
             }
-        }
 
-        // Ethernet Config
-        if (interfaceType == "Ethernet") {
-            Text(
-                "Ethernet selected – no extra config needed.",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Spacer(Modifier.height(20.dp))
 
-            Spacer(Modifier.height(16.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    onClick = {
-                        navController.navigate(NavigationRoute.DEVICES) {
-                            popUpTo(NavigationRoute.WIFI) { inclusive = true }
-                        }
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                ) {
-                    Text("Skip", color = MaterialTheme.colorScheme.onError)
-                }
-
-                Button(
-                    onClick = {
-                        Toast.makeText(context, "Ethernet saved", Toast.LENGTH_SHORT).show()
-                        navController.navigate(NavigationRoute.CHARGER_POINT_CONFIG) {
-                            popUpTo(NavigationRoute.WIFI) { inclusive = true }
-                        }
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
-                ) {
-                    Text("Save & Next")
-                }
+            if (wifiStatus.isNotEmpty()) {
+                Text("Wi-Fi Status: $wifiStatus", style = MaterialTheme.typography.bodyLarge)
             }
+            Log.d("WiFiStatus", "Current Wi-Fi Status: $wifiStatus")
         }
-
-        Spacer(Modifier.height(20.dp))
-
-        if (wifiStatus.isNotEmpty()) {
-            Text("Wi-Fi Status: $wifiStatus", style = MaterialTheme.typography.bodyLarge)
-        }
-        Log.d("WiFiStatus", "Current Wi-Fi Status: $wifiStatus")
     }
 }
