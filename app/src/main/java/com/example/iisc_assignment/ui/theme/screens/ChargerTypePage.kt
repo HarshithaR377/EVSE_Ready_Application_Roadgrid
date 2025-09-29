@@ -79,8 +79,6 @@ fun ChargerTypeScreen(navController: NavController) {
             // Next Button at Bottom
             Button(
                 onClick = {
-                    // navigate to next screen
-                   // navController.navigate(NavigationRoute.WIFI)
                 },
                 enabled = selectedType != null, // only enable if a type is selected
                 shape = RoundedCornerShape(12.dp),

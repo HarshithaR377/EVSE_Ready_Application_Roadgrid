@@ -31,7 +31,7 @@ fun HomePage(
 
     // Gradient Brush
     val gradientBrush = Brush.verticalGradient(
-        colors = listOf(Color(0xFF66BB6A), Color(0xFF43A047)) // light green to dark green
+        colors = listOf(Color(0xFF66BB6A), Color(0xFF43A047))
     )
 
     ModalNavigationDrawer(
