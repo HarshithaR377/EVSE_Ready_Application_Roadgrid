@@ -1,4 +1,5 @@
 package com.example.iisc_assignment.ui.theme.screens
+
 import android.bluetooth.BluetoothDevice
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -54,9 +55,11 @@ fun DeviceListScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {  navController.navigate(NavigationRoute.Commissioning) {
-                            popUpTo(NavigationRoute.DEVICES) { inclusive = true }
-                        } },
+                        .clickable {
+                            navController.navigate(NavigationRoute.Commissioning) {
+                                popUpTo(NavigationRoute.DEVICES) { inclusive = true }
+                            }
+                        },
                     shape = MaterialTheme.shapes.medium,
                     border = BorderStroke(1.dp, Color.Gray),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),

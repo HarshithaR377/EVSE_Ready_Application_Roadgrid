@@ -93,9 +93,11 @@ fun RfidScreen(navController: NavController) {
                 )
 
                 Button(
-                    onClick = {   navController.navigate(NavigationRoute.LEDConfiguration) {
-                        popUpTo(NavigationRoute.RFID) { inclusive = true }
-                    } },
+                    onClick = {
+                        navController.navigate(NavigationRoute.LEDConfiguration) {
+                            popUpTo(NavigationRoute.RFID) { inclusive = true }
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
                 ) {

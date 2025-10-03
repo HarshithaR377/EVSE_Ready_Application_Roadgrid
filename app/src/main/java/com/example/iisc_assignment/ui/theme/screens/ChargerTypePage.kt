@@ -16,77 +16,76 @@ fun ChargerTypeScreen(navController: NavController) {
     var selectedType by remember { mutableStateOf<String?>(null) }
 
     Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Choose Charger Type",
-                    style = MaterialTheme.typography.headlineSmall
-                )
-                Spacer(Modifier.height(32.dp))
+            Text(
+                text = "Choose Charger Type",
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Spacer(Modifier.height(32.dp))
 
-                // AC Charger Button
-                Button(
-                    onClick = {  navController.navigate(NavigationRoute.DEVICES) {
-                        popUpTo(NavigationRoute.ChargerType) { inclusive = true }
-                    } },
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedType == "AC")
-                            MaterialTheme.colorScheme.primary
-                        else
-                            MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = if (selectedType == "AC")
-                            MaterialTheme.colorScheme.onPrimary
-                        else
-                            MaterialTheme.colorScheme.onSurface
-                    )
-                ) {
-                    Text("AC Charger")
-                }
-
-                // DC Charger Button
-                Button(
-                    onClick = { selectedType = "DC" },
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedType == "DC")
-                            MaterialTheme.colorScheme.primary
-                        else
-                            MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = if (selectedType == "DC")
-                            MaterialTheme.colorScheme.onPrimary
-                        else
-                            MaterialTheme.colorScheme.onSurface
-                    )
-                ) {
-                    Text("DC Charger")
-                }
-            }
-
-            // Next Button at Bottom
+            // AC Charger Button
             Button(
                 onClick = {
+                    navController.navigate(NavigationRoute.DEVICES) {
+                        popUpTo(NavigationRoute.ChargerType) { inclusive = true }
+                    }
                 },
-                enabled = selectedType != null, // only enable if a type is selected
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
+                    .padding(vertical = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (selectedType == "AC")
+                        MaterialTheme.colorScheme.primary
+                    else
+                        MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = if (selectedType == "AC")
+                        MaterialTheme.colorScheme.onPrimary
+                    else
+                        MaterialTheme.colorScheme.onSurface
+                )
             ) {
-                Text("Next")
+                Text("AC Charger")
+            }
+
+            // DC Charger Button
+            Button(
+                onClick = { selectedType = "DC" },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (selectedType == "DC")
+                        MaterialTheme.colorScheme.primary
+                    else
+                        MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = if (selectedType == "DC")
+                        MaterialTheme.colorScheme.onPrimary
+                    else
+                        MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                Text("DC Charger")
             }
         }
+        Button(
+            onClick = {},
+            enabled = selectedType != null,
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        ) {
+            Text("Next")
+        }
     }
+}

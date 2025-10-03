@@ -47,12 +47,9 @@ fun WifiConfigScreen(
     var ssid by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
-
-    // Dropdown state
     var interfaceType by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     val interfaceOptions = listOf("Wi-Fi/GSM Configuration", "Ethernet")
-
     var appName by remember { mutableStateOf("") }
     var networkSwitchingApp by remember { mutableStateOf("") }
 
@@ -125,14 +122,24 @@ fun WifiConfigScreen(
                         OutlinedTextField(
                             value = ssid,
                             onValueChange = { ssid = it },
-                            leadingIcon = { Icon(Icons.Default.PlayArrow, contentDescription = "SSID") },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.PlayArrow,
+                                    contentDescription = "SSID"
+                                )
+                            },
                             label = { Text("Wi-Fi Name (SSID)") },
                             modifier = Modifier.fillMaxWidth()
                         )
                         OutlinedTextField(
                             value = password,
                             onValueChange = { password = it },
-                            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.Lock,
+                                    contentDescription = "Password"
+                                )
+                            },
                             label = { Text("Wi-Fi Password") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -144,14 +151,24 @@ fun WifiConfigScreen(
                         OutlinedTextField(
                             value = appName,
                             onValueChange = { appName = it },
-                            leadingIcon = { Icon(Icons.Default.AddCircle, contentDescription = "App") },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.AddCircle,
+                                    contentDescription = "App"
+                                )
+                            },
                             label = { Text("App Name") },
                             modifier = Modifier.fillMaxWidth()
                         )
                         OutlinedTextField(
                             value = networkSwitchingApp,
                             onValueChange = { networkSwitchingApp = it },
-                            leadingIcon = { Icon(Icons.Default.Settings, contentDescription = "Network Switching") },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.Settings,
+                                    contentDescription = "Network Switching"
+                                )
+                            },
                             label = { Text("Network Switching Type") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -182,12 +199,20 @@ fun WifiConfigScreen(
                         onClick = {
                             if (ssid.isNotBlank() && password.isNotBlank()) {
                                 onSend(ssid, password)
-                                Toast.makeText(context, "Wi-Fi credentials saved", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Wi-Fi credentials saved",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 navController.navigate(NavigationRoute.CHARGER_POINT_CONFIG) {
                                     popUpTo(NavigationRoute.WIFI) { inclusive = true }
                                 }
                             } else {
-                                Toast.makeText(context, "Enter SSID and Password", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Enter SSID and Password",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         },
                         modifier = Modifier.weight(1f),

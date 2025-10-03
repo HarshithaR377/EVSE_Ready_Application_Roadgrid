@@ -1,4 +1,5 @@
 package com.example.iisc_assignment.ui.theme.screens
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -129,7 +130,7 @@ fun HomePage(
                 }
             }
         ) { innerPadding ->
-            Column(
+            Column( // this column is used for print the element vertically and inside this we are adding some elements vertically
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()

@@ -68,13 +68,15 @@ fun CommissioningScreen(navController: NavController) {
         ) {
             CustomOutlinedButton(
                 text = "Configuration",
-                onClick = {   navController.navigate(NavigationRoute.WIFI) {
-                    popUpTo(NavigationRoute.Commissioning) { inclusive = true }
-                } }
+                onClick = {
+                    navController.navigate(NavigationRoute.WIFI) {
+                        popUpTo(NavigationRoute.Commissioning) { inclusive = true }
+                    }
+                }
             )
             CustomOutlinedButton(
                 text = "OTA Firmware Upgrade",
-                onClick = {  }
+                onClick = { }
             )
             CustomOutlinedButton(
                 text = "Upload/Delete Certificate",
@@ -100,9 +102,11 @@ fun CustomOutlinedButton(
             containerColor = Color.Transparent,
             contentColor = Color.White
         ),
-        border = ButtonDefaults.outlinedButtonBorder.copy(width = 2.dp, brush = Brush.linearGradient(
-            listOf(Color.White, Color.White)
-        ))
+        border = ButtonDefaults.outlinedButtonBorder.copy(
+            width = 2.dp, brush = Brush.linearGradient(
+                listOf(Color.White, Color.White)
+            )
+        )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

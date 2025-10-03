@@ -16,6 +16,7 @@ import com.example.iisc_assignment.ui.theme.screens.LoginScreen
 import com.example.iisc_assignment.ui.theme.screens.RfidScreen
 import com.example.iisc_assignment.ui.theme.screens.SplashScreen
 import com.example.iisc_assignment.ui.theme.screens.WifiConfigScreen
+
 @Composable
 fun AppNavigation(
     navController: NavHostController,
@@ -37,9 +38,9 @@ fun AppNavigation(
             LoginScreen(navController = navController)
         }
 
-composable(NavigationRoute.HOME){
-    HomePage(navController = navController)
-}
+        composable(NavigationRoute.HOME) {
+            HomePage(navController = navController)
+        }
 
         // Devices (Bluetooth scan result list)
         composable(NavigationRoute.DEVICES) {
@@ -67,22 +68,22 @@ composable(NavigationRoute.HOME){
         composable(NavigationRoute.CHARGER_POINT_CONFIG) {
             ChargerPointConfiguration(navController = navController)
         }
-        composable(route = NavigationRoute.RFID){
+        composable(route = NavigationRoute.RFID) {
             RfidScreen(navController = navController)
         }
-        composable(route = NavigationRoute.LEDConfiguration ){
+        composable(route = NavigationRoute.LEDConfiguration) {
             LedConfigurationScreen(navController = navController)
         }
 
-        composable(route = NavigationRoute.ExternalMeterRegister){
+        composable(route = NavigationRoute.ExternalMeterRegister) {
             ExternalMeterRegisterScreen(navController = navController)
         }
 
-        composable(route = NavigationRoute.ChargerType){
+        composable(route = NavigationRoute.ChargerType) {
             ChargerTypeScreen(navController = navController)
         }
 
-        composable(route = NavigationRoute.Commissioning){
+        composable(route = NavigationRoute.Commissioning) {
             CommissioningScreen(navController = navController)
         }
     }

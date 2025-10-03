@@ -20,7 +20,9 @@ import com.example.iisc_assignment.ui.theme.green
 @Composable
 fun SplashScreen(navController: NavController) {
     Box(
-        modifier = Modifier.fillMaxSize().background(green),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(green),
         contentAlignment = Alignment.Center
     ) {
         Image(

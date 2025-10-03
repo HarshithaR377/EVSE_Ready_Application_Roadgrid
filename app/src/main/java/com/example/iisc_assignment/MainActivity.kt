@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
         val wifiStatusState = mutableStateOf("")
     }
 
-    // ✅ BLE GATT Callback
+
     private val gattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             runOnUiThread {
@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // ✅ Permission launcher
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { perms ->
             val granted = perms.values.all { it }
@@ -134,7 +134,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // ✅ Permission check before scanning
+
     private fun checkPermissionsAndScan() {
         val permissions = listOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -151,7 +151,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // ✅ BLE Scan
+
     @SuppressLint("MissingPermission")
     private fun startScan() {
         val scanner = bluetoothAdapter.bluetoothLeScanner
@@ -166,7 +166,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // ✅ Connect to device
+
     @SuppressLint("MissingPermission")
     private fun connectToDevice(device: BluetoothDevice) {
         bluetoothAdapter.bluetoothLeScanner?.stopScan(scanCallback)
@@ -174,7 +174,7 @@ class MainActivity : ComponentActivity() {
         Toast.makeText(this, "Connecting to ${device.name ?: "ESP32"}", Toast.LENGTH_SHORT).show()
     }
 
-    // ✅ Send Wi-Fi credentials
+
     @SuppressLint("MissingPermission")
     private fun sendWifiConfig(ssid: String, password: String) {
         val data = "$ssid,$password"

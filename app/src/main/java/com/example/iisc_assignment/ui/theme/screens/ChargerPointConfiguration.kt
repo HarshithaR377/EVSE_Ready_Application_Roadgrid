@@ -278,7 +278,12 @@ fun ChargerPointConfiguration(navController: NavController = NavController(conte
                     modifier = Modifier.fillMaxWidth()
                 )
                 Row(horizontalArrangement = Arrangement.Absolute.SpaceBetween) {
-                    Text("Earth Fault", modifier = Modifier.padding(10.dp).align(Alignment.CenterVertically))
+                    Text(
+                        "Earth Fault",
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .align(Alignment.CenterVertically)
+                    )
                     Switch(
                         checked = earthFaultCheckedButton.value,
                         onCheckedChange = { earthFaultCheckedButton.value = it },
@@ -288,7 +293,12 @@ fun ChargerPointConfiguration(navController: NavController = NavController(conte
 
                 Text(
                     "Limit Configuration",
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 6.dp)
+                    modifier = Modifier.padding(
+                        start = 10.dp,
+                        end = 10.dp,
+                        top = 10.dp,
+                        bottom = 6.dp
+                    )
                 )
 
                 Row(
@@ -342,7 +352,7 @@ fun ChargerPointConfiguration(navController: NavController = NavController(conte
                         label = { Text("Over Voltage Limit", fontSize = 12.sp) },
                         modifier = Modifier
                             .weight(1f)
-                            .height(48.dp), // 👈 reduced height
+                            .height(48.dp),
                         textStyle = LocalTextStyle.current.copy(fontSize = 14.sp),
                         singleLine = true
                     )
@@ -400,9 +410,11 @@ fun ChargerPointConfiguration(navController: NavController = NavController(conte
 
                     // Save & Next Button
                     Button(
-                        onClick = {   navController.navigate(NavigationRoute.RFID) {
-                            popUpTo(NavigationRoute.CHARGER_POINT_CONFIG) { inclusive = true }
-                        } },
+                        onClick = {
+                            navController.navigate(NavigationRoute.RFID) {
+                                popUpTo(NavigationRoute.CHARGER_POINT_CONFIG) { inclusive = true }
+                            }
+                        },
                         modifier = Modifier
                             .weight(1f)
                             .padding(start = 6.dp),

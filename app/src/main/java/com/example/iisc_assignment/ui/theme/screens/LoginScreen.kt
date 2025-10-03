@@ -2,7 +2,6 @@ package com.example.iisc_assignment.ui.theme.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -123,6 +122,7 @@ fun LoginScreen(navController: NavController) {
                                 }
                                 ""
                             }
+
                             else -> "Invalid credentials"
                         }
                     },
@@ -132,7 +132,12 @@ fun LoginScreen(navController: NavController) {
                         .fillMaxWidth()
                         .height(50.dp)
                 ) {
-                    Text("Login", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        "Login",
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
 
                 if (error.isNotEmpty()) {

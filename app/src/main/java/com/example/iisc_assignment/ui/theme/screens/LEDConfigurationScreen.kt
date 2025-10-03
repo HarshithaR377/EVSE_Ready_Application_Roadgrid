@@ -27,9 +27,19 @@ fun LedConfigurationScreen(navController: NavController) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                Text("Menu", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(16.dp))
-                NavigationDrawerItem(label = { Text("Home") }, selected = false, onClick = { scope.launch { drawerState.close() } })
-                NavigationDrawerItem(label = { Text("Settings") }, selected = false, onClick = { scope.launch { drawerState.close() } })
+                Text(
+                    "Menu",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(16.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("Home") },
+                    selected = false,
+                    onClick = { scope.launch { drawerState.close() } })
+                NavigationDrawerItem(
+                    label = { Text("Settings") },
+                    selected = false,
+                    onClick = { scope.launch { drawerState.close() } })
             }
         }
     ) {
@@ -90,7 +100,7 @@ fun LedConfigurationScreen(navController: NavController) {
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Blue Blink") },
-                       // colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Blue, textColor = Color.White),
+                        // colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Blue, textColor = Color.White),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedAvailable) },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -118,7 +128,7 @@ fun LedConfigurationScreen(navController: NavController) {
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Blue Steady") },
-                       // colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Blue, textColor = Color.White),
+                        // colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Blue, textColor = Color.White),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedPreparing) },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -146,7 +156,7 @@ fun LedConfigurationScreen(navController: NavController) {
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Green Steady") },
-                      //  colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Green, textColor = Color.White),
+                        //  colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Green, textColor = Color.White),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCharging) },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -174,7 +184,7 @@ fun LedConfigurationScreen(navController: NavController) {
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Green Blink") },
-                       // colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Green, textColor = Color.White),
+                        // colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Green, textColor = Color.White),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedChargingFinish) },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -202,7 +212,7 @@ fun LedConfigurationScreen(navController: NavController) {
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Red Steady") },
-                   //     colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Red, textColor = Color.White),
+                        //     colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Red, textColor = Color.White),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedFault) },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -230,7 +240,7 @@ fun LedConfigurationScreen(navController: NavController) {
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Red Blink") },
-                      //  colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Red, textColor = Color.White),
+                        //  colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Red, textColor = Color.White),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedConnecting) },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -258,7 +268,7 @@ fun LedConfigurationScreen(navController: NavController) {
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Red Steady") },
-                       // colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Red, textColor = Color.White),
+                        // colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.Red, textColor = Color.White),
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedInternet) },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -289,9 +299,11 @@ fun LedConfigurationScreen(navController: NavController) {
                     }
 
                     Button(
-                        onClick = {   navController.navigate(NavigationRoute.ExternalMeterRegister) {
-                            popUpTo(NavigationRoute.LEDConfiguration) { inclusive = true }
-                        }},
+                        onClick = {
+                            navController.navigate(NavigationRoute.ExternalMeterRegister) {
+                                popUpTo(NavigationRoute.LEDConfiguration) { inclusive = true }
+                            }
+                        },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                     ) {
