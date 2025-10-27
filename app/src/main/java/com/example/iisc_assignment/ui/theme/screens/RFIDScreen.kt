@@ -80,7 +80,7 @@ fun RfidScreen(navController: NavController) {
                 )
 
                 Button(
-                    onClick = { /* TODO: Handle Start */ },
+                    onClick = { },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
                 ) {
