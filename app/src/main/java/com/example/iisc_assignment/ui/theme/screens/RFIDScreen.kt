@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.iisc_assignment.ui.theme.navigation.NavigationRoute
 
@@ -61,7 +60,7 @@ fun RfidScreen(navController: NavController) {
                                 }
                             }
                         ) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
+                              Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
                     }
                 )
