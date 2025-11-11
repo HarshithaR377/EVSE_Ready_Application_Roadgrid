@@ -31,7 +31,7 @@ fun ChargerTypeScreen(navController: NavController) {
             )
             Spacer(Modifier.height(32.dp))
 
-            // AC Charger Button
+            // AC Charger Button this button is used for selecting the charger type button
             Button(
                 onClick = {
                     navController.navigate(NavigationRoute.DEVICES) {
@@ -56,7 +56,7 @@ fun ChargerTypeScreen(navController: NavController) {
                 Text("AC Charger")
             }
 
-            // DC Charger Button
+            // DC Charger Button is used for selecting the button
             Button(
                 onClick = { selectedType = "DC" },
                 shape = RoundedCornerShape(12.dp),
@@ -89,3 +89,6 @@ fun ChargerTypeScreen(navController: NavController) {
         }
     }
 }
+
+
+//"timestamp": "2025-11-04T06:33:22.591Z"
