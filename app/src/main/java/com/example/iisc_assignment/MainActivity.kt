@@ -24,10 +24,14 @@ import androidx.compose.runtime.*
 import java.util.UUID
 import androidx.core.content.ContextCompat
 import android.bluetooth.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
 import com.example.iisc_assignment.ui.theme.navigation.AppNavigation
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 
 
@@ -188,4 +192,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

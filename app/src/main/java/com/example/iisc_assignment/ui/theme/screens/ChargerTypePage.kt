@@ -91,4 +91,3 @@ fun ChargerTypeScreen(navController: NavController) {
 }
 
 
-//"timestamp": "2025-11-04T06:33:22.591Z"
