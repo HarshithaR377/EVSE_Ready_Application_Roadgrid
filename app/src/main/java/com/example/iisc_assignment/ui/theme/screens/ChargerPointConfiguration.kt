@@ -119,8 +119,8 @@ fun ChargerPointConfiguration(navController: NavController = NavController(conte
                 val maxConnectorOptions = listOf("1", "2")
                 val maxConnector = remember { mutableStateOf("") }
 
-                var expandedDoNotStop = remember { mutableStateOf(false) }
-                var expandedMaxConnector = remember { mutableStateOf(false) }
+                val expandedDoNotStop = remember { mutableStateOf(false) }
+                val expandedMaxConnector = remember { mutableStateOf(false) }
                 val connectorType = remember { mutableStateOf("") }
                 val connectorMode = remember { mutableStateOf("") }
                 val earthFaultCheckedButton = remember { mutableStateOf(true) }
