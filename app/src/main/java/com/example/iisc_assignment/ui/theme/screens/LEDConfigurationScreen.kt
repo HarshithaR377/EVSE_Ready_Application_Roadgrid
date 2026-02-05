@@ -257,6 +257,7 @@ fun LedConfigurationScreen(navController: NavController) {
                     }
                 }
 
+
                 // Connection to Internet
                 Text("Connection to Internet State")
                 ExposedDropdownMenuBox(
